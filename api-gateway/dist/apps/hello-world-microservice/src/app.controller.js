@@ -17,11 +17,20 @@ let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
     }
+    getWorking() {
+        return 'Hello World microservice is working!';
+    }
     getHello() {
         return this.appService.getHello();
     }
 };
 exports.AppController = AppController;
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "getWorking", null);
 __decorate([
     (0, microservices_1.MessagePattern)({ cmd: 'hi' }),
     __metadata("design:type", Function),

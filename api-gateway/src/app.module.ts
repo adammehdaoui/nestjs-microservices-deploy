@@ -5,7 +5,12 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
-    ClientsModule.register([{ name: 'HELLO', transport: Transport.TCP }]),
+    ClientsModule.register([
+      {
+        name: 'HELLO',
+        transport: Transport.TCP,
+      },
+    ]),
   ],
   controllers: [AppController],
   providers: [AppService],

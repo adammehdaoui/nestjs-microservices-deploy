@@ -8,11 +8,12 @@ async function bootstrap() {
   app.connectMicroservice({
     transport: Transport.TCP,
     options: {
+      host: 'localhost',
       port: 3001,
     },
   });
 
-  app.startAllMicroservices();
+  await app.startAllMicroservices();
 
   await app.listen(3000);
 }
