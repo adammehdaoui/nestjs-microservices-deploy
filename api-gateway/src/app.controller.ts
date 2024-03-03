@@ -1,17 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { map } from 'rxjs/operators';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(@Inject('HELLO') private readonly helloClient: ClientProxy) {}
 
   @Get()
   getHello() {
-    return this.appService.getHello();
-  }
-
-  @Get('hi')
-  getHelloFromMicroservice() {
-    return this.appService.getHelloFromMicroservice();
+    const resHello = this.helloClient.send({ cmd: 'hi' }, {});
+    return resHello.pipe(
+      map((response) => {
+        return 'Processed response: ' + response;
+      }),
+    );
   }
 }

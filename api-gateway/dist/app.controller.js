@@ -12,27 +12,31 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppService = void 0;
+exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const microservices_1 = require("@nestjs/microservices");
 const operators_1 = require("rxjs/operators");
-let AppService = class AppService {
-    constructor(helloWorldClient) {
-        this.helloWorldClient = helloWorldClient;
+let AppController = class AppController {
+    constructor(helloClient) {
+        this.helloClient = helloClient;
     }
     getHello() {
-        return 'Hello World!';
-    }
-    getHelloFromMicroservice() {
-        return this.helloWorldClient.send({ cmd: 'hi' }, {}).pipe((0, operators_1.map)((response) => {
-            return 'Réponse traitée : ' + response;
+        const resHello = this.helloClient.send({ cmd: 'hi' }, {});
+        return resHello.pipe((0, operators_1.map)((response) => {
+            return 'Processed response: ' + response;
         }));
     }
 };
-exports.AppService = AppService;
-exports.AppService = AppService = __decorate([
-    (0, common_1.Injectable)(),
+exports.AppController = AppController;
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "getHello", null);
+exports.AppController = AppController = __decorate([
+    (0, common_1.Controller)(),
     __param(0, (0, common_1.Inject)('HELLO')),
     __metadata("design:paramtypes", [microservices_1.ClientProxy])
-], AppService);
-//# sourceMappingURL=app.service.js.map
+], AppController);
+//# sourceMappingURL=app.controller.js.map
