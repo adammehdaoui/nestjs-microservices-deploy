@@ -11,7 +11,7 @@ import { AppService } from './app.service';
         transport: Transport.TCP,
         options: {
           host: 'localhost',
-          port: 3000,
+          port: 3001,
         },
       },
     ]),

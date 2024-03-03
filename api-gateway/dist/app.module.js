@@ -23,7 +23,7 @@ exports.AppModule = AppModule = __decorate([
                     transport: microservices_1.Transport.TCP,
                     options: {
                         host: 'localhost',
-                        port: 3000,
+                        port: 3001,
                     },
                 },
             ]),
