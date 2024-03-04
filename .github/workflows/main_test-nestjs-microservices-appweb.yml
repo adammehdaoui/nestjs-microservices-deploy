@@ -17,8 +17,8 @@ jobs:
           username: helloworldadammehdaoui
           password: PnRpM54cPkVLABCTQ2b12uPKJQE3bqbcTvTeNLp+UL+ACRDp+3r0
       - run: |
-          docker build . -t helloworldadammehdaoui.azurecr.io/myapp:${{ github.sha }}
-          docker push helloworldadammehdaoui.azurecr.io/myapp:${{ github.sha }}
+          docker build . -t helloworldadammehdaoui.azurecr.io/:${{ github.sha }}
+          docker push helloworldadammehdaoui.azurecr.io/test-app:${{ github.sha }}
 
         # - name: "Build and push image"
         #   uses: azure/docker-login@v1
