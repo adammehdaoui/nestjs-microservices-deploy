@@ -1,0 +1,13 @@
+{
+  "name": "microservices_on_azure",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "start:gateway": "cd api-gateway && npm start",
+    "start:hello-world": "cd apps/hello-world-microservice && npm start",
+    "start:dev": "npm run start:gateway & npm run start:hello-world"
+  }
+}
