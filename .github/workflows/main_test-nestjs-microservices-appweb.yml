@@ -1,44 +1,44 @@
 name: Build and Deploy Node.js app to Azure Container Registry
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        shell: bash
+        working-directory: dotnet
     steps:
-      - name: "Checkout GitHub Action"
-        uses: actions/checkout@main
-
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1D7159E14FB247EEA10249DC53E92368 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5FC6B3DF6F5B477BB8282EAE6FC53A5E }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_264E9065FA2D4A6D92740DB0AFB762BA }}
-
-      - name: "Build and push image"
-        uses: azure/docker-login@v1
+      - uses: actions/checkout@v2
+      - uses: azure/docker-login@v1
         with:
           login-server: helloworldadammehdaoui.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-          docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+          docker build . -t helloworldadammehdaoui.azurecr.io/myapp:${{ github.sha }}
+          docker push helloworldadammehdaoui.azurecr.io/myapp:${{ github.sha }}
 
-      - name: "Deploy to Azure Container Instances"
-        uses: "azure/aci-deploy@v1"
-        with:
-          resource-group: ${{ secrets.RESOURCE_GROUP }}
-          dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: random_app
-          location: "west europe"
+        # - name: "Build and push image"
+        #   uses: azure/docker-login@v1
+        #   with:
+        #     login-server: helloworldadammehdaoui.azurecr.io
+        #     username: ${{ secrets.REGISTRY_USERNAME }}
+        #     password: ${{ secrets.REGISTRY_PASSWORD }}
+        # - run: |
+        #     docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+        #     docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+
+        # - name: "Deploy to Azure Container Instances"
+        #   uses: "azure/aci-deploy@v1"
+        #   with:
+        #     resource-group: ${{ secrets.RESOURCE_GROUP }}
+        #     dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+        #     image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+        #     registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        #     registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        #     registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+        #     name: random_app
+        #     location: "west europe"
