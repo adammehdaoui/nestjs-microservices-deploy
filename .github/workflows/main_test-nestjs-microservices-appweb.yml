@@ -17,27 +17,10 @@ jobs:
           username: helloworldadammehdaoui
           password: PnRpM54cPkVLABCTQ2b12uPKJQE3bqbcTvTeNLp+UL+ACRDp+3r0
       - run: |
-          docker build . -t helloworldadammehdaoui.azurecr.io/test-app-deploy:${{ github.sha }}
-          docker push helloworldadammehdaoui.azurecr.io/test-app-deploy:${{ github.sha }}
-
-        # - name: "Build and push image"
-        #   uses: azure/docker-login@v1
-        #   with:
-        #     login-server: helloworldadammehdaoui.azurecr.io
-        #     username: ${{ secrets.REGISTRY_USERNAME }}
-        #     password: ${{ secrets.REGISTRY_PASSWORD }}
-        # - run: |
-        #     docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-        #     docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-
-        # - name: "Deploy to Azure Container Instances"
-        #   uses: "azure/aci-deploy@v1"
-        #   with:
-        #     resource-group: ${{ secrets.RESOURCE_GROUP }}
-        #     dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-        #     image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-        #     registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-        #     registry-username: ${{ secrets.REGISTRY_USERNAME }}
-        #     registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-        #     name: random_app
-        #     location: "west europe"
+          cd api-gateway
+          docker build . -t helloworldadammehdaoui.azurecr.io/api-gateway:${{ github.sha }}
+          docker push helloworldadammehdaoui.azurecr.io/api-gateway:${{ github.sha }}
+      - run: |
+          cd apps/hello-world-microservice
+          docker build . -t helloworldadammehdaoui.azurecr.io/hello-world-microservice:${{ github.sha }}
+          docker push helloworldadammehdaoui.azurecr.io/hello-world-microservice:${{ github.sha }}
