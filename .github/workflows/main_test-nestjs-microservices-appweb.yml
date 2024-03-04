@@ -14,8 +14,8 @@ jobs:
       - uses: azure/docker-login@v1
         with:
           login-server: helloworldadammehdaoui.azurecr.io
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+          username: helloworldadammehdaoui
+          password: PnRpM54cPkVLABCTQ2b12uPKJQE3bqbcTvTeNLp+UL+ACRDp+3r0
       - run: |
           docker build . -t helloworldadammehdaoui.azurecr.io/myapp:${{ github.sha }}
           docker push helloworldadammehdaoui.azurecr.io/myapp:${{ github.sha }}
