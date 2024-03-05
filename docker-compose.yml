@@ -1,30 +1,22 @@
-version: "3.9"
+version: "3.8"
 
 services:
   hello-world-microservice:
+    image: hello-world-microservice
     build:
-      context: ./apps/hello-world-microservice
-      dockerfile: ./Dockerfile
-    expose:
-      - "3001"
-    networks:
-      - my-network
-    environment:
-      - MICROSERVICE_HOST=hello-world-microservice
+      context: apps/hello-world-microservice
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    network_mode: host
 
   api-gateway:
+    image: api-gateway
     build:
-      context: ./api-gateway
-      dockerfile: ./Dockerfile
+      context: api-gateway
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
       - hello-world-microservice
-    networks:
-      - my-network
-    environment:
-      - MICROSERVICE_HOST=hello-world-microservice
-
-networks:
-  my-network:
-    driver: bridge
+    network_mode: host

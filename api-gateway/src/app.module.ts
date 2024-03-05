@@ -1,11 +1,7 @@
-// AppModule.ts du premier microservice (api-gateway)
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
-const microserviceHost =
-  process.env.MICROSERVICE_HOST || 'hello-world-microservice'; // Utilisez le nom du service ici
 
 @Module({
   imports: [
@@ -14,7 +10,7 @@ const microserviceHost =
         name: 'HELLO',
         transport: Transport.TCP,
         options: {
-          host: microserviceHost,
+          host: 'localhost',
           port: 3001,
         },
       },
