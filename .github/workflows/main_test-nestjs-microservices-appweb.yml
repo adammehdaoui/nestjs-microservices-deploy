@@ -20,7 +20,11 @@ jobs:
           cd api-gateway
           docker build . -t helloworldadammehdaoui.azurecr.io/api-gateway:${{ github.sha }}
           docker push helloworldadammehdaoui.azurecr.io/api-gateway:${{ github.sha }}
+          docker tag helloworldadammehdaoui.azurecr.io/api-gateway:${{ github.sha }} helloworldadammehdaoui.azurecr.io/api-gateway:latest
+          docker push helloworldadammehdaoui.azurecr.io/api-gateway:latest
       - run: |
           cd apps/hello-world-microservice
           docker build . -t helloworldadammehdaoui.azurecr.io/hello-world-microservice:${{ github.sha }}
           docker push helloworldadammehdaoui.azurecr.io/hello-world-microservice:${{ github.sha }}
+          docker tag helloworldadammehdaoui.azurecr.io/hello-world-microservice:${{ github.sha }} helloworldadammehdaoui.azurecr.io/hello-world-microservice:latest
+          docker push helloworldadammehdaoui.azurecr.io/hello-world-microservice:latest
