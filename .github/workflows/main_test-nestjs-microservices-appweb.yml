@@ -1,45 +1,62 @@
-name: Docker Build and Deploy on AWS ECS
+name: Create and publish Docker images
 
+# Configures this workflow to run every time a change is pushed to the branch called `main`.
 on:
   push:
-    branches:
-      - main
+    branches: "main"
 
+# Defines custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker images that this workflow builds.
+env:
+  REGISTRY: ghcr.io
+  HELLO_WORLD_IMAGE_NAME: hello-world-microservice
+  API_GATEWAY_IMAGE_NAME: api-gateway
+
+# There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
 jobs:
-  build-and-deploy:
+  build-and-push-images:
     runs-on: ubuntu-latest
-
+    # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Build and Push hello-world-microservice
-        uses: docker/build-push-action@v2
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Extract metadata (tags, labels) for Docker images
+      - name: Extract metadata (tags, labels) for hello-world-microservice Docker image
+        id: hello_meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.HELLO_WORLD_IMAGE_NAME }}
+
+      - name: Extract metadata (tags, labels) for api-gateway Docker image
+        id: api_meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.API_GATEWAY_IMAGE_NAME }}
+
+      # Build and push hello-world-microservice Docker image
+      - name: Build and push hello-world-microservice Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: apps/hello-world-microservice
           push: true
-          tags: ghcr.io/adammehdaoui/nestjs-microservices-deploy/hello-world-microservice:latest
-        env:
-          DOCKER_USERNAME: ${{ github.repository_owner }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          tags: ${{ steps.hello_meta.outputs.tags }}
+          labels: ${{ steps.hello_meta.outputs.labels }}
 
-      - name: Build and Push api-gateway
-        uses: docker/build-push-action@v2
+      # Build and push api-gateway Docker image
+      - name: Build and push api-gateway Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: api-gateway
           push: true
-          tags: ghcr.io/adammehdaoui/nestjs-microservices-deploy/api-gateway:latest
-        env:
-          DOCKER_USERNAME: ${{ github.repository_owner }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-3
-
-      - name: Deploy to ECS
-        run: |
-          aws ecs update-service --cluster nestjs-microservices --service app-web --force-new-deployment
+          tags: ${{ steps.api_meta.outputs.tags }}
+          labels: ${{ steps.api_meta.outputs.labels }}
