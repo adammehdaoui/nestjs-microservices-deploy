@@ -9,6 +9,7 @@ env:
   ECR_REPOSITORY: "nestjs-microservices"
   ECS_SERVICE: "app-web"
   ECS_CLUSTER: "nestjs-microservices"
+  ECR_REGISTRY: "nestjs-microservices"
   ECS_TASK_DEFINITION: .github/.aws/task-definition.json
 
 permissions:
