@@ -67,7 +67,7 @@ jobs:
         with:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: hello-world-microservice
-          image: ${{ steps.build-hello-image.outputs.image }}
+          image: $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY_HELLO_WORLD:latest
 
       - name: Fill in the new image IDs in the Amazon ECS task definition for api-gateway microservice
         id: task-def-api
@@ -75,7 +75,7 @@ jobs:
         with:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: api-gateway
-          image: ${{ steps.build-api-image.outputs.image }}
+          image: $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY_API_GATEWAY:latest
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
