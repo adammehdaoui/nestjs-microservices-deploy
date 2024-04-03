@@ -50,17 +50,13 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY_HELLO_WORLD:latest
           echo "image=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY_HELLO_WORLD:$IMAGE_TAG" >> $GITHUB_ENV
 
-      # - name: Build, tag, and push api-gateway microservice image to Amazon ECR
-      #   id: build-api-image
-      #   env:
-      #     ECR_REGISTRY: ${{ env.ECR_REGISTRY_GLOBAL }}
-      #     ECR_REPOSITORY: ${{ env.ECR_REPOSITORY_API_GATEWAY }}
-      #     IMAGE_TAG: ${{ github.sha }}
-      #   run: |
-      #     docker build -t api-gateway ./api-gateway
-      #     docker tag api-gateway $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:latest
-      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:latest
-      #     echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG" >> $GITHUB_ENV
-
-      - name: Print GitHub environment variables
-        run: echo "$GITHUB_ENV"
+      - name: Build, tag, and push api-gateway microservice image to Amazon ECR
+        id: build-api-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY_API_GATEWAY }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY_API_GATEWAY:latest ./api-gateway
+          docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY_API_GATEWAY:latest
+          echo "image=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG" >> $GITHUB_ENV
