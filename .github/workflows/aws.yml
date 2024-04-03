@@ -59,7 +59,7 @@ jobs:
         run: |
           docker build -t api-gateway ./api-gateway
 
-          docker tag api-gatewat $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG
+          docker tag api-gateway $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG" >> $GITHUB_ENV
 
