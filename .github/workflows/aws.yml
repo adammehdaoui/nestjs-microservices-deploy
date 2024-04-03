@@ -58,7 +58,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           touch ./api-gateway/.env
-          cat "MICROSERVICE_HOST='0.0.0.0" >> ./api-gateway/.env 
+          cat "MICROSERVICE_HOST='0.0.0.0'" >> ./api-gateway/.env 
 
           docker build -t $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY_API_GATEWAY:latest ./api-gateway
           docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY_API_GATEWAY:latest
