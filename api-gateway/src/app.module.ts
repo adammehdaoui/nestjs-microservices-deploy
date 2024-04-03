@@ -10,7 +10,7 @@ import { AppService } from './app.service';
         name: 'HELLO',
         transport: Transport.TCP,
         options: {
-          host: 'localhost',
+          host: process.env.MICROSERVICE_HOST || 'localhost',
           port: 3001,
         },
       },
