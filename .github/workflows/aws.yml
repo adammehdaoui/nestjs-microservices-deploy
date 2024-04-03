@@ -56,8 +56,9 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY_API_GATEWAY }}
           IMAGE_TAG: ${{ github.sha }}
+          MICROSERVICE_HOST: ${{ env.MICROSERVICE_HOST }}
         run: |
-          cat MICROSERVICE_HOST={{ env.MICROSERVICE_HOST }} > ./api-gateway/.env 
+          cat "MICROSERVICE_HOST=$MICROSERVICE_HOST" > ./api-gateway/.env 
         
           docker build -t $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY_API_GATEWAY:latest ./api-gateway
           docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/$ECR_REPOSITORY_API_GATEWAY:latest
