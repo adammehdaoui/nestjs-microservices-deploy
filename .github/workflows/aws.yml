@@ -68,12 +68,12 @@ jobs:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: hello-world-microservice
           image: ${{ steps.build-hello-image.outputs.image }}
-          
+
       - name: Fill in the new image IDs in the Amazon ECS task definition for api-gateway microservice
         id: task-def-api
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.task-def-hello.outputs.task-definition }}
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: api-gateway
           image: ${{ steps.build-api-image.outputs.image }}
 
