@@ -8,8 +8,7 @@ env:
   AWS_REGION: "us-east-1"
   ECR_REPOSITORY_API_GATEWAY: "api-gateway"
   ECR_REPOSITORY_HELLO_WORLD: "hello-world-microservice"
-  ECR_REGISTRY_GLOBAL: "public.ecr.aws/l0w9m4t8"
-  ECS_SERVICE: "app-web"
+  ECS_SERVICE: "app"
   ECS_CLUSTER: "nestjs-microservices"
   ECS_TASK_DEFINITION: .github/.aws/task-definition.json
 
@@ -33,25 +32,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
+      - name: Login to Amazon ECR Public
+        id: login-ecr-public
         uses: aws-actions/amazon-ecr-login@v2
+          with:
+            registry-type: public
 
       - name: Build, tag, and push hello-world microservice image to Amazon ECR
         id: build-hello-image
         env:
-          ECR_REGISTRY: ${{ env.ECR_REGISTRY_GLOBAL }}
+          ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY_HELLO_WORLD }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          # docker build -t hello-world-microservice ./apps/hello-world-microservice
-          # docker tag hello-world-microservice $ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:latest
-          # docker push $ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:latest
-          # echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:$IMAGE_TAG" >> $GITHUB_ENV
-
           docker build -t hello-world-microservice ./apps/hello-world-microservice
-          docker tag hello-world-microservice:latest public.ecr.aws/l0w9m4t8/hello-world-microservice:latest
-          docker push public.ecr.aws/l0w9m4t8/hello-world-microservice:latest
+          docker tag hello-world-microservice $ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:latest
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:$IMAGE_TAG" >> $GITHUB_ENV
 
       # - name: Build, tag, and push api-gateway microservice image to Amazon ECR
       #   id: build-api-image
