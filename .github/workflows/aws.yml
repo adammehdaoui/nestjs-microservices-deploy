@@ -45,11 +45,8 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t hello-world-microservice ./apps/hello-world-microservice
-
           docker tag hello-world-microservice $ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:latest
-
           docker push $ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:latest
-
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:$IMAGE_TAG" >> $GITHUB_ENV
 
       # - name: Build, tag, and push api-gateway microservice image to Amazon ECR
@@ -60,28 +57,9 @@ jobs:
       #     IMAGE_TAG: ${{ github.sha }}
       #   run: |
       #     docker build -t api-gateway ./api-gateway
-
-      #     docker tag api-gateway $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG
-
+      #     docker tag api-gateway $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:latest
       #     docker push $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:latest
-
       #     echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Print GitHub environment variables
         run: echo "$GITHUB_ENV"
-
-      # - name: Fill in the new image IDs in the Amazon ECS task definition
-      #   id: task-def
-      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-      #   with:
-      #     task-definition: ${{ env.ECS_TASK_DEFINITION }}
-      #     container-name: hello-world-microservice
-      #     image: ${{ steps.build-hello-image.outputs.image }}
-
-      # - name: Deploy Amazon ECS task definition
-      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      #   with:
-      #     task-definition: ${{ steps.task-def.outputs.task-definition }}
-      #     service: ${{ env.ECS_SERVICE }}
-      #     cluster: ${{ env.ECS_CLUSTER }}
-      #     wait-for-service-stability: true
