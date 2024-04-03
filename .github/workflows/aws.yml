@@ -48,7 +48,7 @@ jobs:
 
           docker tag hello-world-microservice $ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:latest
 
-          #docker push $ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:latest
 
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:$IMAGE_TAG" >> $GITHUB_ENV
 
