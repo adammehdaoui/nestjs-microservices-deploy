@@ -5,7 +5,7 @@ on:
     branches: ["main"]
 
 env:
-  AWS_REGION: "eu-west-3"
+  AWS_REGION: "us-east-1"
   ECR_REPOSITORY_API_GATEWAY: "api-gateway"
   ECR_REPOSITORY_HELLO_WORLD: "hello-world-microservice"
   ECR_REGISTRY_ALIAS: "l0w9m4t8"
