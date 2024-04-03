@@ -63,7 +63,7 @@ jobs:
 
           docker tag api-gateway $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG
 
-          #docker push $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:latest
 
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG" >> $GITHUB_ENV
 
