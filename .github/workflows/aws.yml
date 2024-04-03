@@ -35,7 +35,7 @@ jobs:
 
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build, tag, and push hello-world microservice image to Amazon ECR
         id: build-hello-image
@@ -50,8 +50,8 @@ jobs:
           # echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:$IMAGE_TAG" >> $GITHUB_ENV
 
           docker build -t hello-world-microservice ./apps/hello-world-microservice
-          docker tag api-gateway:latest public.ecr.aws/l0w9m4t8/api-gateway:latest
-          docker push public.ecr.aws/l0w9m4t8/api-gateway:latest
+          docker tag hello-world-microservice:latest public.ecr.aws/l0w9m4t8/hello-world-microservice:latest
+          docker push public.ecr.aws/l0w9m4t8/hello-world-microservice:latest
 
       # - name: Build, tag, and push api-gateway microservice image to Amazon ECR
       #   id: build-api-image
