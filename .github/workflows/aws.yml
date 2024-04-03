@@ -6,7 +6,8 @@ on:
 
 env:
   AWS_REGION: "eu-west-3"
-  ECR_REPOSITORY: "nestjs-microservices" # Utilisez le nom correct du référentiel ici
+  ECR_REPOSITORY_API_GATEWAY: "api-gateway"
+  ECR_REPOSITORY_HELLO_WORLD: "hello-world-microservice"
   ECS_SERVICE: "app-web"
   ECS_CLUSTER: "nestjs-microservices"
   ECS_TASK_DEFINITION: .github/.aws/task-definition.json
@@ -42,9 +43,9 @@ jobs:
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./apps/hello-world-microservice
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:$IMAGE_TAG ./apps/hello-world-microservice
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_HELLO_WORLD:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Build, tag, and push api-gateway microservice image to Amazon ECR
         id: build-api-image
@@ -53,9 +54,9 @@ jobs:
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./apps/hello-world-microservice
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG ./apps/hello-world-microservice
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_API_GATEWAY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Fill in the new image IDs in the Amazon ECS task definition
         id: task-def
