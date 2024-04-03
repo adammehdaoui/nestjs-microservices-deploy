@@ -8,6 +8,7 @@ env:
   AWS_REGION: "us-east-1"
   ECR_REPOSITORY_API_GATEWAY: "api-gateway"
   ECR_REPOSITORY_HELLO_WORLD: "hello-world-microservice"
+  ECR_REGISTRY_GLOBAL: "public.ecr.aws/l0w9m4t8"
   ECS_SERVICE: "app-web"
   ECS_CLUSTER: "nestjs-microservices"
   ECS_TASK_DEFINITION: .github/.aws/task-definition.json
@@ -39,7 +40,7 @@ jobs:
       - name: Build, tag, and push hello-world microservice image to Amazon ECR
         id: build-hello-image
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ env.ECR_REGISTRY_GLOBAL }}
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY_HELLO_WORLD }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
@@ -52,7 +53,7 @@ jobs:
       - name: Build, tag, and push api-gateway microservice image to Amazon ECR
         id: build-api-image
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ env.ECR_REGISTRY_GLOBAL }}
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY_API_GATEWAY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
