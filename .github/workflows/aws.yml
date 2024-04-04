@@ -21,4 +21,5 @@ jobs:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_default_region: "eu-west-3"
+          aws_ec2_instance_type: "t2.micro"
           app_port: 80
