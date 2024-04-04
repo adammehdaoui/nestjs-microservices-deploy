@@ -8,10 +8,10 @@
   "scripts": {
     "start:gateway": "cd api-gateway && npm start",
     "start:hello-world": "cd apps/hello-world-microservice && npm start",
-    "start:dev": "npm run start:gateway & npm run start:hello-world",
+    "start:dev": "PORT=3000 npm run start:gateway & npm run start:hello-world",
     "build:gateway": "cd api-gateway && npm run build",
     "build:hello-world": "cd apps/hello-world-microservice && npm run build",
     "build": "npm run build:gateway && npm run build:hello-world",
-    "start:prod": "node api-gateway/dist/main & node apps/hello-world-microservice/dist/main"
+    "start:prod": "PORT=80 node api-gateway/dist/main & node apps/hello-world-microservice/dist/main"
   }
 }

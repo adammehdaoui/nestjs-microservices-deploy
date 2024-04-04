@@ -10,6 +10,7 @@ import { AppService } from './app.service';
         name: 'HELLO',
         transport: Transport.TCP,
         options: {
+          host: 'localhost',
           port: 3001,
         },
       },
