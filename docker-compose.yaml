@@ -5,10 +5,12 @@ services:
     build: apps/api-gateway
     container_name: api-gateway
     restart: always
-    network_mode: host
+    ports:
+      - "3000:3000"
 
   hello-world-microservice:
     build: apps/hello-world-microservice
     container_name: hello-world-microservice
     restart: always
-    network_mode: host
+    ports:
+      - "3001:3001"

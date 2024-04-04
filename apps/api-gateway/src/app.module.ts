@@ -10,7 +10,7 @@ import { AppService } from './app.service';
         name: 'HELLO',
         transport: Transport.TCP,
         options: {
-          host: 'localhost',
+          host: 'hello-world-microservice',
           port: 3001,
         },
       },
